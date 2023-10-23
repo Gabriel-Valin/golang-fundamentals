@@ -1,0 +1,1 @@
+main.Endereco{Cep:"18612-036", Logradouro:"Rua Elias Joaquim", Complemento:"", Bairro:"Residencial Ouro Verde", Localidade:"Botucatu", Uf:"SP", Ddd:"14"}
