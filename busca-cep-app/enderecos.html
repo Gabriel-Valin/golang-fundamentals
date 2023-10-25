@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./public/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">  
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+    <h1>Listagem de CEP</h1>
+    <div class="form-container">
+        <form action="/cep" method="post" class="form-cep" id="form-cep">
+            <label for="cep-form">Digite o cep:</label>
+            <input type="cep" name="cep">
+            <button type="submit">BUSCAR</button>
+        </form>
+    </div>
+    <div class="table-container">
+        <table class="table-cep">
+            <thead>
+            <tr>
+                <th>CEP</th>
+                <th>Logradouro</th>
+                <th>Bairro</th>
+                <th>Localidade</th>
+                <th>Uf</th>
+                <th>DDD</th>
+            </tr>
+            </thead>
+            <tbody>
+                {{ range . }}
+                <tr>
+                    <td> {{.Cep}}</td>
+                    <td> {{.Logradouro}}</td>
+                    <td> {{.Bairro}}</td>
+                    <td> {{.Localidade}}</td>
+                    <td> {{.Uf}}</td>
+                    <td> {{.Ddd}}</td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+   <script>
+        $("#form-cep").submit(function( event ) {
+        event.preventDefault();
+ 
+        // Obtém alguns valores dos elementos da página:
+        const $form = $( this )
+        cep = $form.find( "input[name='cep']" ).val(),
+        url = $form.attr("action");
+        
+        const posting = $.post( url, { cep } );
+        
+        posting.done(function( data ) {
+            Swal.fire({
+                    title: 'Novo CEP adicionado', 
+                    icon: "success",
+                    html: `<code>${JSON.stringify(data)}</code>`,  
+                    confirmButtonText: "OK",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload()
+                    };
+                })
+            });
+        });
+    </script>
+</body>
+</html>
